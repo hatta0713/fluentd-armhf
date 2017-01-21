@@ -1,14 +1,9 @@
 # Fluentd docker image
 
-[![Docker Stars](https://img.shields.io/docker/stars/fluent/fluentd.svg)](https://hub.docker.com/r/fluent/fluentd/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/fluent/fluentd.svg)](https://hub.docker.com/r/fluent/fluentd/)
-[![ImageLayers Size](https://img.shields.io/imagelayers/image-size/fluent/fluentd/latest.svg)](https://hub.docker.com/r/fluent/fluentd/)
-[![ImageLayers Layers](https://img.shields.io/imagelayers/layers/fluent/fluentd/latest.svg)](https://hub.docker.com/r/fluent/fluentd/)
-
 This container image is to create endpoint to collect logs on your host.
 
 ```
-docker run -d -p 24224:24224 -v /data:/fluentd/log fluent/fluentd
+docker run -d -p 24224:24224 -v /data:/fluentd/log buffalo/armhf-fluentd
 ```
 
 Default configurations are to:
@@ -17,7 +12,7 @@ Default configurations are to:
 * store logs with tag `docker.**` into `/fluentd/log/docker.*.log` (and symlink `docker.log`)
 * store all other logs into `/fluentd/log/data.*.log` (and symlink data.log)
 
-This image uses Alpine Linux. Since v0.12.26, we separate tags into `vX.XX.XX` and `vX.XX.XX-onbuild`.
+This image uses Alpine Linux.
 
 ## Docker image tag and fluentd versions
 
@@ -34,13 +29,6 @@ This branch will use fluentd v0.14 seriese after v0.14 becomes stable. We don't 
 
 fluentd v0.12 is current stable version.
 
-### v0.14-latest
-
-`v0.14-latest` tag refers `v0.14` branch. This image uses latest fluentd v0.14 version.
-
-fluentd v0.14 has new useful features but v0.14 is not stable for now.
-You need to check fluentd and plugins work on your environment.
-
 ### vX.Y.Z
 
 `vX.Y.Z` image uses fluentd `vX.Y.Z` version.
@@ -51,11 +39,6 @@ We recommend to use this fixed tag image for production.
 
 Above tags have corresponding `xxx-onbuild` tag for custormization, e.g. `latest-onbuild`, `v0.12.29-onbuild`, etc.
 See `How to build your own image` section for more detail.
-
-### Ubuntu based image
-
-This is deprecated. You can use `ubuntu-base` tag for your build but we don't maintain ubuntu based image with latest Fluentd release.
-We recommend to fork `ubuntu/Dockerfile` for your case.
 
 ## Configurable ENV variables
 
@@ -106,7 +89,7 @@ Documentation of `fluent.conf` is available at [docs.fluentd.org](http://docs.fl
 You can use [Fluentd plugins](http://www.fluentd.org/plugins) by installing them using Dockerfile. Sample Dockerfile installs `fluent-plugin-secure-forward`. To add plugins, edit `Dockerfile` as following:
 
 ```
-FROM fluent/fluentd:latest-onbuild
+FROM buffalo/armhf-fluentd:latest-onbuild
 MAINTAINER YOUR_NAME <...@...>
 WORKDIR /home/fluent
 ENV PATH /home/fluent/.gem/ruby/2.3.0/bin:$PATH
